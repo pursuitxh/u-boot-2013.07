@@ -171,11 +171,22 @@ copyex:
 	str	r1, [r0]
 # endif
 
-	/* FCLK:HCLK:PCLK = 1:2:4 */
-	/* default FCLK is 120 MHz ! */
-	ldr	r0, =CLKDIVN
-	mov	r1, #3
-	str	r1, [r0]
+	/* FCLK:HCLK:PCLK = 1:4:8 */
+	ldr r0, =CLKDIVN
+	mov r1, #0x5
+	str r1, [r0]
+
+	/* Change fast bus mode to asynchronous bus mode */
+	mrc	p15, 0, r1, c1, c0, 0
+	orr	r1, r1, #0xc0000000
+	mcr	p15, 0, r1, c1, c0, 0
+
+#   define S3C2440_MPLL_400MHZ     ((92<<12)|(1<<4)|(1))
+#   define MPLLCON	0x4c000004
+	ldr r0, =MPLLCON
+	ldr r1, =S3C2440_MPLL_400MHZ
+	str r1, [r0]
+
 #endif	/* CONFIG_S3C24X0 */
 
 	/*
