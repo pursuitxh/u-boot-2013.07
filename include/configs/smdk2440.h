@@ -98,7 +98,7 @@
 #define CONFIG_CMD_DATE
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_ELF
-//#define CONFIG_CMD_NAND
+#define CONFIG_CMD_NAND
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_USB
@@ -192,8 +192,14 @@
  * NAND configuration
  */
 #ifdef CONFIG_CMD_NAND
+
+#ifdef CONFIG_S3C2410
 #define CONFIG_NAND_S3C2410
 #define CONFIG_SYS_S3C2410_NAND_HWECC
+#else
+#define CONFIG_NAND_S3C2440
+#endif
+
 #define CONFIG_SYS_MAX_NAND_DEVICE	1
 #define CONFIG_SYS_NAND_BASE		0x4E000000
 #endif
