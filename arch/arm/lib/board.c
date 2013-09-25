@@ -530,7 +530,8 @@ void board_init_r(gd_t *id, ulong dest_addr)
 	monitor_flash_len = _end_ofs;
 
 	/* Enable caches */
-	enable_caches();
+	/* I-Cache is already enabled in start.S */
+	//enable_caches();
 
 	debug("monitor flash len: %08lX\n", monitor_flash_len);
 	board_init();	/* Setup chipselects */
