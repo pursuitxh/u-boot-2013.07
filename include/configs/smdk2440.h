@@ -72,11 +72,13 @@
 /************************************************************
  * USB support (currently only works with D-cache off)
  ************************************************************/
+#if 0
 #define CONFIG_USB_OHCI
 #define CONFIG_USB_OHCI_S3C24XX
 #define CONFIG_USB_KEYBOARD
 #define CONFIG_USB_STORAGE
 #define CONFIG_DOS_PARTITION
+#endif
 
 /************************************************************
  * RTC
@@ -89,10 +91,12 @@
 /*
  * BOOTP options
  */
+#if 0
 #define CONFIG_BOOTP_BOOTFILESIZE
 #define CONFIG_BOOTP_BOOTPATH
 #define CONFIG_BOOTP_GATEWAY
 #define CONFIG_BOOTP_HOSTNAME
+#endif
 
 /*
  * Command line configuration.
@@ -102,25 +106,29 @@
 #define CONFIG_CMD_BSP
 #define CONFIG_CMD_CACHE
 #define CONFIG_CMD_DATE
-#define CONFIG_CMD_DHCP
+//#define CONFIG_CMD_DHCP
 #define CONFIG_CMD_ELF
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_USB
+//#define CONFIG_CMD_USB
 
 #define CONFIG_SYS_HUSH_PARSER
 #define CONFIG_CMDLINE_EDITING
 
 /* autoboot */
-#define CONFIG_BOOTDELAY	5
+#define CONFIG_BOOTDELAY	3	
 #define CONFIG_BOOT_RETRY_TIME	-1
 #define CONFIG_RESET_TO_RETRY
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 
+
 #define CONFIG_NETMASK		255.255.255.0
-#define CONFIG_IPADDR		10.0.0.110
-#define CONFIG_SERVERIP		10.0.0.1
+#define CONFIG_IPADDR		192.168.5.127
+#define CONFIG_SERVERIP		192.168.5.152	
+#define CONFIG_ETHADDR     	08:00:27:5a:84:15 
+#define CONFIG_BOOTARGS "console=ttySAC0 root=/dev/mtdblock3"
+#define CONFIG_BOOTCOMMAND "nand read 30000000 kernel;bootm 30000000"
 
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE	115200	/* speed to run kgdb serial port */
@@ -179,11 +187,17 @@
 #define CONFIG_SYS_FLASH_BANKS_LIST     { CONFIG_SYS_FLASH_BASE }
 #define CONFIG_SYS_MAX_FLASH_SECT	(128)
 
+#if 0
 #define CONFIG_ENV_ADDR			(CONFIG_SYS_FLASH_BASE + 0x070000)
 #define CONFIG_ENV_IS_IN_FLASH
 #define CONFIG_ENV_SIZE			0x10000
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
+#endif
+#define CONFIG_ENV_IS_IN_NAND
+#define CONFIG_ENV_OFFSET      0x00040000
+#define CONFIG_ENV_SIZE        0x20000
+#define CONFIG_ENV_RANGE       CONFIG_ENV_SIZE
 
 /*
  * Size of malloc() pool
@@ -213,13 +227,21 @@
 /*
  * File system
  */
-#define CONFIG_CMD_FAT
-#define CONFIG_CMD_EXT2
-#define CONFIG_CMD_UBI
-#define CONFIG_CMD_UBIFS
+//#define CONFIG_CMD_FAT
+//#define CONFIG_CMD_EXT2
+//#define CONFIG_CMD_UBI
+//#define CONFIG_CMD_UBIFS
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
+#define CONFIG_MTD_DEVICE
+#define MTDIDS_DEFAULT		"nand0=jz2440-0"
+#define MTDPARTS_DEFAULT	"mtdparts=jz2440-0:256k(u-boot),"	\
+						"128k(params),"		\
+						"2m(kernel),"	\
+						"-(rootfs)"
+
+
 //#define CONFIG_YAFFS2
 #define CONFIG_RBTREE
 
